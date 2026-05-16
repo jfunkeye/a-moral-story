@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>The Lesson Tunde Learned | 3D Pixel Art Nigerian Moral Story</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --deep-green: #1e3b2f;
+      --gold: #c79b3e;
+      --cream: #fdf5e6;
+      --warm-brown: #6b4e3d;
+      --orange: #d97c2b;
+      --soft-brown: #a47148;
+      --card-bg: #fff9ef;
+      --text-dark: #2e241b;
+      --heading-color: #b45f2a;
+      --text-light: #5c3e2a;
+      --dialogue-bg: #fae3c6;
+      --dialogue-text: #2e241b;
+      --trait-bg: #fae3c6;
+      --trait-text: #2e241b;
+      --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+      --shadow-soft: 0 20px 35px rgba(0,0,0,0.08), 0 8px 20px rgba(0,0,0,0.06);
+      --shadow-cinematic: 0 25px 40px -12px rgba(0,0,0,0.25);
+      --border-radius-card: clamp(1.5rem, 3vw, 2.5rem);
+      --transition-smooth: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.5s ease, color 0.5s ease;
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(199, 155, 62, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(30, 59, 47, 0.05) 0%, transparent 50%);
+    }
+
+    body.dark-mode {
+      background: #1f1a15;
+      color: #f0e7da;
+      --cream: #2c241c;
+      --card-bg: #3a3227;
+      --text-dark: #f5e7d3;
+      --heading-color: #f3b33d;
+      --text-light: #e7d5c0;
+      --dialogue-bg: #4a3d2f;
+      --dialogue-text: #f5e7d3;
+      --trait-bg: #4a3d2f;
+      --trait-text: #f5e7d3;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(199, 155, 62, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(30, 59, 47, 0.1) 0%, transparent 50%);
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 clamp(1rem, 5vw, 3rem);
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background: #2d1f0e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.8s ease, visibility 0.8s;
+      font-family: 'Courier New', 'Press Start 2P', monospace;
+      background-image: 
+        linear-gradient(45deg, #3d2b1a 25%, transparent 25%),
+        linear-gradient(-45deg, #3d2b1a 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #3d2b1a 75%),
+        linear-gradient(-45deg, transparent 75%, #3d2b1a 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+
+    .pixel-art-loader {
+      display: flex;
+      gap: clamp(8px, 2vw, 12px);
+      margin-bottom: 30px;
+    }
+
+    .pixel-block {
+      width: clamp(20px, 4vw, 28px);
+      height: clamp(20px, 4vw, 28px);
+      background: #c97e2b;
+      animation: pixelBounce 0.7s infinite alternate;
+      box-shadow: 3px 3px 0 #5e3a22, inset -2px -2px 0 rgba(0,0,0,0.3);
+      image-rendering: pixelated;
+    }
+
+    .pixel-block:nth-child(2) { animation-delay: 0.15s; background: #d98c2b; }
+    .pixel-block:nth-child(3) { animation-delay: 0.3s; background: #e5a03c; }
+    .pixel-block:nth-child(4) { animation-delay: 0.45s; background: #f3b33d; }
+
+    @keyframes pixelBounce {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-18px) scale(1.1); }
+    }
+
+    .loading-text {
+      font-size: clamp(0.8rem, 2vw, 1.2rem);
+      letter-spacing: 3px;
+      color: #f3b33d;
+      font-weight: bold;
+      text-shadow: 2px 2px 0 #5e3a22;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Navigation */
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(107, 78, 61, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 998;
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #f3b33d;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    body.dark-mode .nav-bar {
+      background: rgba(30, 24, 18, 0.95);
+    }
+
+    .nav-bar.visible {
+      transform: translateY(0);
+    }
+
+    .nav-logo {
+      color: #f3b33d;
+      font-family: 'Press Start 2P', cursive;
+      font-size: clamp(0.6rem, 1.5vw, 0.9rem);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: clamp(1rem, 3vw, 2rem);
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #fdf5e6;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: clamp(0.8rem, 1.5vw, 1rem);
+      transition: color 0.3s;
+    }
+
+    body.dark-mode .nav-links a {
+      color: #f0e7da;
+    }
+
+    .nav-links a:hover {
+      color: #f3b33d;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: 
+        linear-gradient(135deg, rgba(107,78,61,0.8) 0%, rgba(31,59,47,0.85) 100%),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><rect width="40" height="40" fill="%233d2b1a" opacity="0.3"/><rect width="20" height="20" fill="%235e3a22" opacity="0.2"/><rect x="20" y="20" width="20" height="20" fill="%235e3a22" opacity="0.2"/></svg>') repeat;
+      background-blend-mode: overlay;
+      border-radius: 0 0 clamp(1.5rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3rem);
+      margin-bottom: 2rem;
+      box-shadow: 0 30px 45px rgba(0,0,0,0.3);
+      text-align: center;
+      color: white;
+      padding: clamp(1.5rem, 5vw, 4rem) 1rem;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('images/tunde-disobedient-boy.png') center/contain no-repeat;
+      opacity: 0.2;
+      z-index: 0;
+      animation: floatSlow 8s ease-in-out infinite;
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.05); }
+    }
+
+    .hero-content {
+      max-width: 900px;
+      animation: fadeInUp 1.2s ease;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: #f3b33d;
+      color: #2e241b;
+      padding: 0.5rem 1.5rem;
+      border-radius: 0.3rem;
+      font-family: 'Press Start 2P', cursive;
+      font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+      margin-bottom: 1.5rem;
+      box-shadow: 4px 4px 0 #5e3a22;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      text-shadow: 4px 4px 0 rgba(0,0,0,0.5), 0 0 40px rgba(243,179,61,0.3);
+      margin-bottom: clamp(0.5rem, 2vw, 1.5rem);
+      line-height: 1.2;
+      letter-spacing: 2px;
+      font-family: 'Press Start 2P', 'Poppins', cursive;
+      color: #f3b33d;
+    }
+
+    .hero .subtitle {
+      font-size: clamp(1rem, 3.5vw, 1.8rem);
+      font-weight: 400;
+      margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+      text-shadow: 2px 2px 4px black;
+      line-height: 1.5;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: clamp(1.5rem, 4vw, 3rem);
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: bold;
+      color: #f3b33d;
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .stat-label {
+      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+      opacity: 0.9;
+      margin-top: 0.3rem;
+    }
+
+    .btn-read {
+      background: #f3b33d;
+      border: 3px solid #5e3a22;
+      padding: clamp(0.8rem, 2vw, 1.2rem) clamp(2rem, 5vw, 3rem);
+      font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+      font-weight: bold;
+      border-radius: 0.5rem;
+      color: #2e241b;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 6px 6px 0 #5e3a22;
+      display: inline-flex;
+      align-items: center;
+      gap: clamp(8px, 2vw, 12px);
+      text-decoration: none;
+      white-space: nowrap;
+      font-family: 'Press Start 2P', 'Poppins', cursive;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 0.5rem;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 3px solid #f3b33d;
+      color: #f3b33d;
+      box-shadow: 6px 6px 0 rgba(243,179,61,0.3);
+    }
+
+    body.dark-mode .btn-outline {
+      color: #f3b33d;
+    }
+
+    .btn-read:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 9px 9px 0 #5e3a22;
+    }
+
+    .btn-read:active {
+      transform: translate(3px, 3px);
+      box-shadow: 3px 3px 0 #5e3a22;
+    }
+
+    /* Proverb Banner */
+    .proverb-banner {
+      background: linear-gradient(135deg, #c97e2b, #b45f2a);
+      color: white;
+      text-align: center;
+      padding: clamp(2rem, 5vw, 3rem) 1rem;
+      margin: 2rem 0;
+      border-radius: 1rem;
+      border: 3px solid #5e3a22;
+      box-shadow: 8px 8px 0 #5e3a22;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .proverb-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      100% { transform: rotate(360deg); }
+    }
+
+    .proverb-text {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+    }
+
+    .proverb-author {
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      margin-top: 1rem;
+      opacity: 0.9;
+    }
+
+    /* Story cards */
+    .story-grid {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(2rem, 5vw, 4rem);
+      margin: clamp(2rem, 5vw, 4rem) 0;
+    }
+
+    .story-card {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      background: var(--card-bg);
+      border-radius: 1rem;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      box-shadow: 8px 8px 0 rgba(94, 58, 34, 0.3);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+      gap: clamp(1.5rem, 4vw, 2.5rem);
+      border: 3px solid #c97e2b;
+      background-image: 
+        linear-gradient(45deg, rgba(199, 155, 62, 0.05) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(199, 155, 62, 0.05) 25%, transparent 25%);
+      background-size: 10px 10px;
+    }
+
+    .story-card:nth-child(even) .image-container {
+      order: 2;
+    }
+
+    .story-card:nth-child(even) .story-text {
+      order: 1;
+    }
+
+    .story-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 12px 12px 0 rgba(94, 58, 34, 0.4);
+    }
+
+    .image-container {
+      flex: 1 1 min(300px, 100%);
+      position: relative;
+      display: flex;
+      justify-content: center;
+      animation: floatPixel 4s ease-in-out infinite;
+      min-width: 0;
+      padding: 10px;
+    }
+
+    @keyframes floatPixel {
+      0%, 100% { transform: translateY(0px); }
+      25% { transform: translateY(-8px); }
+      75% { transform: translateY(3px); }
+    }
+
+    .story-image {
+      width: 100%;
+      max-width: clamp(300px, 45vw, 450px);
+      height: auto;
+      aspect-ratio: 1/1;
+      border-radius: 0.5rem;
+      box-shadow: 6px 6px 0 rgba(94, 58, 34, 0.5);
+      transition: 0.4s;
+      object-fit: cover;
+      border: 4px solid #e7c288;
+      image-rendering: auto;
+    }
+
+    .story-card:hover .story-image {
+      transform: scale(1.02);
+      box-shadow: 8px 8px 0 rgba(94, 58, 34, 0.6);
+    }
+
+    .glow-effect {
+      position: absolute;
+      inset: -15px;
+      background: radial-gradient(circle at center, rgba(255,200,100,0.25) 0%, transparent 70%);
+      border-radius: 20px;
+      z-index: -1;
+      filter: blur(15px);
+      pointer-events: none;
+    }
+
+    .pixel-border {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      border: 3px dashed #c97e2b;
+      border-radius: 1rem;
+      opacity: 0;
+      transition: 0.3s;
+      pointer-events: none;
+    }
+
+    .story-card:hover .pixel-border {
+      opacity: 0.5;
+    }
+
+    .story-text {
+      flex: 1 1 min(300px, 100%);
+      padding: clamp(0.5rem, 3vw, 1.5rem);
+      min-width: 0;
+      color: var(--text-dark);
+    }
+
+    .scene-number {
+      font-family: 'Press Start 2P', cursive;
+      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+      color: #c97e2b;
+      margin-bottom: 0.5rem;
+    }
+
+    .story-text h2 {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: var(--heading-color);
+      margin-bottom: clamp(0.8rem, 2vw, 1.5rem);
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 2vw, 12px);
+      flex-wrap: wrap;
+      font-family: 'Press Start 2P', 'Poppins', cursive;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+    }
+
+    .character-label {
+      display: inline-block;
+      background: #c97e2b;
+      color: white;
+      padding: 0.3rem 1rem;
+      border-radius: 0.3rem;
+      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+      font-family: 'Press Start 2P', cursive;
+      margin-bottom: 1rem;
+    }
+
+    .dialogue-box {
+      background: var(--dialogue-bg);
+      color: var(--dialogue-text);
+      padding: clamp(0.8rem, 2.5vw, 1.5rem) clamp(1rem, 3vw, 2rem);
+      border-radius: 0 0.5rem 0.5rem 0.5rem;
+      margin: clamp(1rem, 3vw, 2rem) 0;
+      font-style: italic;
+      font-weight: 500;
+      border-left: clamp(6px, 1.5vw, 10px) solid #c97e2b;
+      box-shadow: 4px 4px 0 rgba(94, 58, 34, 0.2);
+      position: relative;
+      font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+      line-height: 1.6;
+    }
+
+    .dialogue-speaker {
+      font-weight: bold;
+      color: #c97e2b;
+      font-style: normal;
+      display: block;
+      margin-top: 0.5rem;
+    }
+
+    body.dark-mode .dialogue-speaker {
+      color: #f3b33d;
+    }
+
+    .narration {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      line-height: 1.8;
+      color: var(--text-dark);
+    }
+
+    /* Character showcase */
+    .characters-section {
+      margin: clamp(3rem, 8vw, 5rem) 0;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      color: var(--heading-color);
+      margin-bottom: 0.5rem;
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .section-subtitle {
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      opacity: 0.8;
+      margin-bottom: 2rem;
+      color: var(--text-dark);
+    }
+
+    .character-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .character-card {
+      background: var(--card-bg);
+      border-radius: 1rem;
+      padding: clamp(1.5rem, 3vw, 2rem);
+      box-shadow: 6px 6px 0 rgba(94, 58, 34, 0.3);
+      transition: 0.3s;
+      border: 2px solid #e7c288;
+      text-align: center;
+      color: var(--text-dark);
+    }
+
+    .character-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 10px 10px 0 rgba(94, 58, 34, 0.4);
+    }
+
+    .character-card.featured {
+      border: 3px solid #f3b33d;
+      box-shadow: 8px 8px 0 rgba(243,179,61,0.4);
+    }
+
+    .character-img {
+      width: 100%;
+      max-width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      border: 3px solid #c97e2b;
+    }
+
+    .character-traits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 0.8rem;
+    }
+
+    .trait-tag {
+      background: var(--trait-bg);
+      color: var(--trait-text);
+      padding: 0.3rem 0.8rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      border: 1px solid #c97e2b;
+    }
+
+    /* Timeline Section */
+    .timeline-section {
+      margin: clamp(3rem, 8vw, 5rem) 0;
+      position: relative;
+    }
+
+    .timeline {
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 100%;
+      background: #c97e2b;
+      top: 0;
+    }
+
+    .timeline-item {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 2rem 0;
+      position: relative;
+      width: 50%;
+      padding-right: 2rem;
+    }
+
+    .timeline-item:nth-child(even) {
+      margin-left: 50%;
+      padding-right: 0;
+      padding-left: 2rem;
+    }
+
+    .timeline-content {
+      background: var(--card-bg);
+      color: var(--text-dark);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      border: 2px solid #c97e2b;
+      box-shadow: 4px 4px 0 rgba(94, 58, 34, 0.3);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      right: -12px;
+      width: 24px;
+      height: 24px;
+      background: #f3b33d;
+      border: 3px solid #5e3a22;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .timeline-item:nth-child(even) .timeline-dot {
+      left: -12px;
+      right: auto;
+    }
+
+    /* Moral Lessons Expanded */
+    .moral-section {
+      margin: clamp(3rem, 8vw, 5rem) 0;
+      text-align: center;
+    }
+
+    .moral-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: clamp(1.5rem, 4vw, 2.5rem);
+      margin-top: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .moral-card {
+      background: var(--card-bg);
+      color: var(--text-dark);
+      padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 2rem);
+      border-radius: 0.5rem;
+      box-shadow: 5px 5px 0 rgba(94, 58, 34, 0.3);
+      transition: 0.4s;
+      cursor: default;
+      border: 2px solid #d98c2b;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .moral-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: #f3b33d;
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+
+    .moral-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .moral-card:hover {
+      transform: translateY(-8px);
+      background: #fcead8;
+      box-shadow: 8px 8px 0 rgba(94, 58, 34, 0.4);
+    }
+
+    body.dark-mode .moral-card:hover {
+      background: #4a3d2f;
+    }
+
+    .moral-icon {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      margin-bottom: 1rem;
+    }
+
+    .moral-card h3 {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      margin-bottom: 0.5rem;
+      color: var(--heading-color);
+    }
+
+    /* Quiz Section */
+    .quiz-section {
+      background: linear-gradient(135deg, #1e3b2f, #2d5a3f);
+      color: white;
+      padding: clamp(2rem, 5vw, 3rem);
+      border-radius: 1rem;
+      margin: 3rem 0;
+      text-align: center;
+      border: 3px solid #f3b33d;
+      box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+    }
+
+    .quiz-question {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      margin: 1.5rem 0;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .quiz-option {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid #f3b33d;
+      color: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+    }
+
+    .quiz-option:hover {
+      background: rgba(243,179,61,0.3);
+      transform: scale(1.05);
+    }
+
+    .quiz-option.correct {
+      background: #2d8a4e;
+      border-color: #4caf50;
+    }
+
+    .quiz-option.wrong {
+      background: #8a2d2d;
+      border-color: #f44336;
+    }
+
+    /* Footer */
+    .footer {
+      background: #4a3624;
+      color: #f7efe2;
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2.5rem);
+      border-radius: 1rem 1rem 0 0;
+      text-align: center;
+      margin-top: clamp(3rem, 6vw, 5rem);
+      border-top: 5px solid #f3b33d;
+    }
+
+    body.dark-mode .footer {
+      background: #1a1410;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      text-align: left;
+      margin-bottom: 2rem;
+    }
+
+    .footer h4 {
+      color: #f3b33d;
+      margin-bottom: 1rem;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.8rem;
+    }
+
+    .footer a {
+      color: #e7c288;
+      text-decoration: none;
+      display: block;
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    .footer a:hover {
+      color: #f3b33d;
+    }
+
+    /* UI Controls */
+    .dark-toggle, .music-control {
+      position: fixed;
+      background: #fbe9d2;
+      border: 3px solid #5e3a22;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 4px 4px 0 #5e3a22;
+      transition: 0.3s;
+      color: #2e241b;
+    }
+
+    body.dark-mode .dark-toggle,
+    body.dark-mode .music-control {
+      background: #4a3d2f;
+      color: #f3b33d;
+      border-color: #f3b33d;
+      box-shadow: 4px 4px 0 rgba(243,179,61,0.3);
+    }
+
+    .dark-toggle {
+      top: clamp(15px, 3vw, 25px);
+      right: clamp(15px, 3vw, 25px);
+      width: clamp(50px, 8vw, 65px);
+      height: clamp(50px, 8vw, 65px);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .music-control {
+      bottom: clamp(20px, 4vw, 30px);
+      right: clamp(20px, 4vw, 30px);
+      border-radius: 0.5rem;
+      padding: clamp(0.6rem, 1.5vw, 0.9rem) clamp(1rem, 2.5vw, 1.5rem);
+      font-family: 'Press Start 2P', cursive;
+      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+    }
+
+    .dark-toggle:hover, .music-control:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #5e3a22;
+    }
+
+    body.dark-mode .dark-toggle:hover,
+    body.dark-mode .music-control:hover {
+      box-shadow: 6px 6px 0 rgba(243,179,61,0.5);
+    }
+
+    /* Share buttons */
+    .share-section {
+      text-align: center;
+      margin: 3rem 0;
+      color: var(--text-dark);
+    }
+
+    .share-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      background: var(--card-bg);
+      border: 2px solid #c97e2b;
+      color: var(--text-dark);
+      padding: 0.8rem 1.5rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .share-btn:hover {
+      background: #f3b33d;
+      color: #2e241b;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 80vh;
+      }
+
+      .story-card {
+        flex-direction: column !important;
+        text-align: center;
+      }
+
+      .story-card:nth-child(even) .image-container {
+        order: 1;
+      }
+
+      .story-card:nth-child(even) .story-text {
+        order: 2;
+      }
+
+      .story-image {
+        max-width: min(280px, 80vw);
+      }
+
+      .story-text h2 {
+        justify-content: center;
+        font-size: 1.3rem;
+      }
+
+      .dialogue-box {
+        text-align: left;
+      }
+
+      .character-img {
+        max-width: 150px;
+        height: 150px;
+      }
+
+      .timeline::before {
+        left: 20px;
+      }
+
+      .timeline-item, .timeline-item:nth-child(even) {
+        width: 100%;
+        margin-left: 0;
+        padding-left: 3rem;
+        padding-right: 1rem;
+      }
+
+      .timeline-dot {
+        left: 8px !important;
+        right: auto !important;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        min-height: 70vh;
+      }
+
+      .moral-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .character-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .quiz-options {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    /* Pixel rain */
+    .pixel-rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.03;
+    }
+  </style>
+</head>
+<body>
+  <!-- Pixel Rain Background -->
+  <div class="pixel-rain" id="pixelRain"></div>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" id="navBar">
+    <div class="nav-logo">TUNDE'S STORY</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#characters">Characters</a></li>
+      <li><a href="#story">Story</a></li>
+      <li><a href="#lessons">Lessons</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ul>
+  </nav>
+
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="pixel-art-loader">
+      <div class="pixel-block"></div>
+      <div class="pixel-block"></div>
+      <div class="pixel-block"></div>
+      <div class="pixel-block"></div>
+    </div>
+    <div class="loading-text">LOADING STORY...</div>
+  </div>
+
+  <!-- Dark mode toggle -->
+  <button class="dark-toggle" id="darkModeToggle" aria-label="Switch dark/light mode">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <!-- Music control -->
+  <button class="music-control" id="musicToggle">
+    <i class="fas fa-music"></i> PLAY
+  </button>
+  
+  <audio id="bgAudio" loop preload="none">
+    <source src="audio/soft-african-melody.mp3" type="audio/mpeg">
+  </audio>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="home" style="background-image: url('images/tunde-disobedient-boy.png'); background-size: cover; background-position: center;">
+      <div class="hero-content">
+        <span class="hero-badge">NEW STORY</span>
+        <h1>THE LESSON<br>TUNDE LEARNED</h1>
+        <p class="subtitle">A heartwarming 3D Pixel Art Nigerian story about obedience, respect, and the wisdom that changes everything</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Characters</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Scenes</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Lessons</div>
+          </div>
+        </div>
+        <a href="#characters" class="btn-read"><i class="fas fa-play"></i> READ STORY</a>
+        <a href="#quiz" class="btn-read btn-outline"><i class="fas fa-gamepad"></i> TAKE QUIZ</a>
+      </div>
+    </section>
+
+    <div class="container">
+      <!-- Nigerian Proverb Banner -->
+      <div class="proverb-banner">
+        <p class="proverb-text">"The child who listens to elders' advice becomes an elder worth listening to."</p>
+        <p class="proverb-author">-- Ancient Yoruba Proverb</p>
+      </div>
+
+      <!-- Character Introductions -->
+      <div class="characters-section" id="characters">
+        <h2 class="section-title">MEET THE CHARACTERS</h2>
+        <p class="section-subtitle">Every great story has unforgettable characters. Here are the people in Tunde's journey.</p>
+        <div class="character-cards">
+          <div class="character-card featured">
+            <img src="images/tunde-disobedient-boy.png" alt="Tunde - The Disobedient Boy" class="character-img" loading="lazy">
+            <h3>Tunde Adeyemi</h3>
+            <p class="character-label">The Disobedient Boy</p>
+            <p>An 8-year-old Nigerian boy with a heart full of dreams but ears closed to advice. He loves football more than schoolwork and often finds himself in trouble.</p>
+            <div class="character-traits">
+              <span class="trait-tag">Stubborn</span>
+              <span class="trait-tag">Loves Football</span>
+              <span class="trait-tag">Bright but Distracted</span>
+              <span class="trait-tag">Kind Heart</span>
+            </div>
+          </div>
+          <div class="character-card">
+            <img src="images/mrs-adeyemi-loving-mother.png" alt="Mrs. Adeyemi - The Loving Mother" class="character-img" loading="lazy">
+            <h3>Mrs. Adeyemi</h3>
+            <p class="character-label">The Loving Mother</p>
+            <p>A wise and patient mother who sees beyond Tunde's stubbornness. She works as a market trader and believes in the power of gentle words over harsh punishment.</p>
+            <div class="character-traits">
+              <span class="trait-tag">Loving</span>
+              <span class="trait-tag">Wise</span>
+              <span class="trait-tag">Patient</span>
+              <span class="trait-tag">Prayerful</span>
+            </div>
+          </div>
+          <div class="character-card">
+            <img src="images/mr-bello-strict-teacher.png" alt="Mr. Bello - The Strict Teacher" class="character-img" loading="lazy">
+            <h3>Mr. Bello</h3>
+            <p class="character-label">The Strict Teacher</p>
+            <p>A dedicated teacher who believes discipline is the foundation of success. Behind his stern face lies a man who truly wants the best for every child in his classroom.</p>
+            <div class="character-traits">
+              <span class="trait-tag">Disciplined</span>
+              <span class="trait-tag">Fair</span>
+              <span class="trait-tag">Dedicated</span>
+              <span class="trait-tag">Watchful</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Story Timeline -->
+      <div class="timeline-section" id="story">
+        <h2 class="section-title" style="text-align: center;">THE STORY UNFOLDS</h2>
+        <p class="section-subtitle" style="text-align: center;">Follow Tunde's journey from disobedience to wisdom</p>
+        
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>Chapter 1: The Warning</h3>
+              <p>Tunde ignores his mother's advice about school.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>Chapter 2: The Classroom</h3>
+              <p>Mr. Bello catches Tunde playing during lessons.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>Chapter 3: The Home Talk</h3>
+              <p>Mrs. Adeyemi shares words that change everything.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>Chapter 4: The Change</h3>
+              <p>Tunde transforms and earns everyone's respect.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>Chapter 5: The Reward</h3>
+              <p>Tunde becomes class leader and makes his mother proud.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Story Cards -->
+      <div class="story-grid">
+        <!-- Scene 1: Morning at Home -->
+        <div class="story-card" data-scroll>
+          <div class="image-container">
+            <img src="images/tunde-home-morning.png" alt="Tunde leaving for school" class="story-image" loading="lazy">
+            <div class="glow-effect"></div>
+            <div class="pixel-border"></div>
+          </div>
+          <div class="story-text">
+            <div class="scene-number">SCENE 01</div>
+            <h2>The Morning Rush</h2>
+            <p class="narration">
+              The rooster crowed as the golden African sun peeked through the windows of the Adeyemi home. 
+              <strong>Tunde</strong> scrambled to find his school sandals, his mind already on the football 
+              match he planned to play during break time. His mother, <strong>Mrs. Adeyemi</strong>, watched 
+              him with knowing eyes as she adjusted her Ankara wrapper.
+            </p>
+            <div class="dialogue-box">
+              "Tunde, remember what I told you. School is your golden opportunity. Don't waste it chasing 
+              after a ball all day."
+              <span class="dialogue-speaker">-- Mrs. Adeyemi</span>
+            </div>
+            <p class="narration">
+              Tunde nodded quickly, but his mind was elsewhere. He grabbed his backpack with one hand and 
+              secretly tucked his football under his arm. "Yes, Mama," he mumbled, already running out the door.
+            </p>
+          </div>
+        </div>
+
+        <!-- Scene 2: Classroom -->
+        <div class="story-card" data-scroll>
+          <div class="image-container">
+            <img src="images/classroom-scene.png" alt="Classroom scene with Mr. Bello" class="story-image" loading="lazy">
+            <div class="glow-effect"></div>
+            <div class="pixel-border"></div>
+          </div>
+          <div class="story-text">
+            <div class="scene-number">SCENE 02</div>
+            <h2>Trouble in Class</h2>
+            <p class="narration">
+              The classroom was filled with the scent of chalk dust and wooden desks. <strong>Mr. Bello</strong> 
+              stood at the front, his thin cane resting on the table as he explained mathematics. But Tunde's 
+              attention was outside the window, where some boys were already playing football.
+            </p>
+            <div class="dialogue-box">
+              "Tunde Adeyemi! Stand up and answer question number seven. This is the third time I've caught 
+              you daydreaming this week!"
+              <span class="dialogue-speaker">-- Mr. Bello</span>
+            </div>
+            <p class="narration">
+              Tunde stood slowly, his classmates turning to stare. He couldn't answer. Mr. Bello shook his 
+              head with disappointment and wrote a note for Tunde's parents in his exercise book. The other 
+              students whispered among themselves.
+            </p>
+          </div>
+        </div>
+
+        <!-- Scene 3: The Walk Home -->
+        <div class="story-card" data-scroll>
+          <div class="image-container">
+            <img src="images/tunde-walking-home.png" alt="Tunde walking home alone" class="story-image" loading="lazy">
+            <div class="glow-effect"></div>
+            <div class="pixel-border"></div>
+          </div>
+          <div class="story-text">
+            <div class="scene-number">SCENE 03</div>
+            <h2>The Lonely Walk</h2>
+            <p class="narration">
+              School ended, but Tunde didn't rush to the football field like usual. He walked home slowly, 
+              the note from Mr. Bello feeling heavier than any football he'd ever carried. The streets of 
+              his Lagos neighborhood were alive with the sounds of hawkers and playing children, but Tunde 
+              felt completely alone with his thoughts.
+            </p>
+            <div class="dialogue-box">
+              "Why does everyone keep telling me what to do? I'm not a baby anymore. I just want to play 
+              football and have fun. Is that so wrong?"
+              <span class="dialogue-speaker">-- Tunde's thoughts</span>
+            </div>
+            <p class="narration">
+              He sat on a wooden bench near the local kiosk, watching other children playing happily. An 
+              elderly neighbor, <strong>Mama Bose</strong>, noticed his sad face and offered him a piece 
+              of groundnut cake with a knowing smile.
+            </p>
+          </div>
+        </div>
+
+        <!-- Scene 4: Mother's Wisdom -->
+        <div class="story-card" data-scroll>
+          <div class="image-container">
+            <img src="images/mrs-adeyemi-loving-mother.png" alt="Mrs. Adeyemi counseling Tunde" class="story-image" loading="lazy">
+            <div class="glow-effect"></div>
+            <div class="pixel-border"></div>
+          </div>
+          <div class="story-text">
+            <div class="scene-number">SCENE 04</div>
+            <h2>A Mother's Love</h2>
+            <p class="narration">
+              That evening, <strong>Mrs. Adeyemi</strong> didn't shout when she saw the note. Instead, she 
+              called Tunde to sit beside her on their worn but comfortable sofa. The lantern cast warm 
+              shadows across the room as she spoke in a gentle voice that cut deeper than any harsh word.
+            </p>
+            <div class="dialogue-box">
+              "My son, do you see that mango tree outside? It didn't grow tall overnight. It needed water, 
+              sunshine, and patience. You are like that tree. Education, discipline, and respect are your 
+              water and sunshine. Without them, you cannot grow into the great man I know you can become."
+              <span class="dialogue-speaker">-- Mrs. Adeyemi</span>
+            </div>
+            <p class="narration">
+              She told him about her own childhood -- how she had to walk five miles to school each day, 
+              how her parents sacrificed everything for her education. Tunde listened. For the first time, 
+              he truly listened. Tears welled up in his eyes as he realized how much his mother loved him.
+            </p>
+          </div>
+        </div>
+
+        <!-- Scene 5: Transformation -->
+        <div class="story-card" data-scroll>
+          <div class="image-container">
+            <img src="images/tunde-transformed.png" alt="Tunde as class leader" class="story-image" loading="lazy">
+            <div class="glow-effect"></div>
+            <div class="pixel-border"></div>
+          </div>
+          <div class="story-text">
+            <div class="scene-number">SCENE 05</div>
+            <h2>A New Tunde</h2>
+            <p class="narration">
+              The next morning, Tunde woke up before the rooster. He ironed his uniform neatly, polished 
+              his sandals, and arrived at school early. <strong>Mr. Bello</strong> could hardly believe 
+              his eyes when Tunde not only answered questions correctly but also helped a struggling 
+              classmate with mathematics.
+            </p>
+            <div class="dialogue-box">
+              "Mr. Bello, sir. I want to apologize for my behavior. I've learned that wisdom begins when 
+              we learn to listen. From today, I promise to be the student my mother believes I can be."
+              <span class="dialogue-speaker">-- Tunde</span>
+            </div>
+            <p class="narration">
+              Mr. Bello's stern face softened into a rare smile. By the end of the term, Tunde had not 
+              only improved his grades but was elected class monitor. His mother attended the school's 
+              award ceremony in her finest gele, tears of pride streaming down her face.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Quiz -->
+      <div class="quiz-section" id="quiz">
+        <h2 class="section-title" style="color: #f3b33d;">TEST YOUR KNOWLEDGE</h2>
+        <p style="margin-bottom: 1rem;">What did you learn from Tunde's story?</p>
+        <div class="quiz-question" id="quizQuestion">What did Mrs. Adeyemi compare Tunde to?</div>
+        <div class="quiz-options" id="quizOptions">
+          <div class="quiz-option" onclick="checkAnswer(this, true)">A Mango Tree</div>
+          <div class="quiz-option" onclick="checkAnswer(this, false)">A Football</div>
+          <div class="quiz-option" onclick="checkAnswer(this, false)">A Textbook</div>
+          <div class="quiz-option" onclick="checkAnswer(this, false)">An Eagle</div>
+        </div>
+        <p id="quizFeedback" style="min-height: 1.5rem; margin-top: 1rem; font-weight: bold;"></p>
+      </div>
+
+      <!-- Moral Lessons -->
+      <div class="moral-section" id="lessons">
+        <h2 class="section-title">LESSONS TO CARRY</h2>
+        <p class="section-subtitle">The wisdom hidden in Tunde's journey</p>
+        <div class="moral-grid">
+          <div class="moral-card">
+            <div class="moral-icon"><i class="fas fa-ear-listen"></i></div>
+            <h3>Obedience</h3>
+            <p>Listening to parents and teachers protects us from making painful mistakes. Obedience is not weakness -- it is wisdom in action.</p>
+          </div>
+          <div class="moral-card">
+            <div class="moral-icon"><i class="fas fa-hands"></i></div>
+            <h3>Respect</h3>
+            <p>When we honor our elders, we honor the years of experience they carry. Respect opens doors that talent alone cannot.</p>
+          </div>
+          <div class="moral-card">
+            <div class="moral-icon"><i class="fas fa-book-open"></i></div>
+            <h3>Discipline</h3>
+            <p>Success is built on the foundation of daily good choices. Discipline today creates the freedom of tomorrow.</p>
+          </div>
+          <div class="moral-card">
+            <div class="moral-icon"><i class="fas fa-heart"></i></div>
+            <h3>Family Love</h3>
+            <p>A parent's correction is a form of love. Behind every rule is a heart that wants the best for you.</p>
+          </div>
+          <div class="moral-card">
+            <div class="moral-icon"><i class="fas fa-seedling"></i></div>
+            <h3>Growth Takes Time</h3>
+            <p>Like the mango tree, becoming a better person doesn't happen overnight. Be patient with yourself as you learn and grow.</p>
+          </div>
+          <div class="moral-card">
+            <div class="moral-icon"><i class="fas fa-star"></i></div>
+            <h3>Second Chances</h3>
+            <p>No mistake is permanent. Every new day offers an opportunity to change, to apologize, and to become better.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Share Section -->
+      <div class="share-section">
+        <h3 style="margin-bottom: 1rem;">Share This Story</h3>
+        <div class="share-buttons">
+          <button class="share-btn" onclick="shareStory('whatsapp')">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </button>
+          <button class="share-btn" onclick="shareStory('facebook')">
+            <i class="fab fa-facebook"></i> Facebook
+          </button>
+          <button class="share-btn" onclick="shareStory('twitter')">
+            <i class="fab fa-twitter"></i> Twitter
+          </button>
+          <button class="share-btn" onclick="copyLink()">
+            <i class="fas fa-link"></i> Copy Link
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h4>About This Story</h4>
+            <p style="font-size: 0.9rem;">A Nigerian moral tale teaching children the value of obedience, respect, and the transformative power of listening to wise counsel.</p>
+          </div>
+          <div>
+            <h4>Quick Links</h4>
+            <a href="#home">Home</a>
+            <a href="#characters">Characters</a>
+            <a href="#story">The Story</a>
+            <a href="#lessons">Moral Lessons</a>
+            <a href="#quiz">Quiz</a>
+          </div>
+          <div>
+            <h4>For Parents</h4>
+            <a href="#">Discussion Guide</a>
+            <a href="#">Activity Sheets</a>
+            <a href="#">More Stories</a>
+            <a href="#">Teaching Resources</a>
+          </div>
+        </div>
+        <p style="font-size: clamp(1rem, 3vw, 1.5rem); font-style: italic; margin: 1.5rem 0; font-family: 'Press Start 2P', cursive; color: #f3b33d;">
+          "Wisdom begins when we learn to listen."
+        </p>
+        <div class="social" style="margin: 1.5rem 0;">
+          <i class="fab fa-instagram" aria-hidden="true" style="margin: 0 10px; font-size: 1.5rem; cursor: pointer;"></i>
+          <i class="fab fa-twitter" aria-hidden="true" style="margin: 0 10px; font-size: 1.5rem; cursor: pointer;"></i>
+          <i class="fab fa-facebook" aria-hidden="true" style="margin: 0 10px; font-size: 1.5rem; cursor: pointer;"></i>
+          <i class="fab fa-youtube" aria-hidden="true" style="margin: 0 10px; font-size: 1.5rem; cursor: pointer;"></i>
+        </div>
+        <p style="font-size: 0.8rem; opacity: 0.8;">&copy; <span id="currentYear"></span> The Lesson Tunde Learned | 3D Pixel Art Storytelling</p>
+        <p style="font-size: 0.7rem; opacity: 0.6; margin-top: 0.5rem;">A Nigerian Moral Story for Children & Families</p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    (function() {
+      // Generate pixel rain
+      const pixelRain = document.getElementById('pixelRain');
+      if (pixelRain) {
+        for (let i = 0; i < 50; i++) {
+          const pixel = document.createElement('div');
+          pixel.style.cssText = `
+            position: absolute;
+            width: ${2 + Math.random() * 4}px;
+            height: ${2 + Math.random() * 4}px;
+            background: ${Math.random() > 0.5 ? '#c97e2b' : '#f3b33d'};
+            left: ${Math.random() * 100}%;
+            top: ${Math.random() * 100}%;
+            animation: fall ${4 + Math.random() * 6}s linear infinite;
+            animation-delay: ${Math.random() * 5}s;
+            opacity: 0.5;
+            border-radius: 1px;
+          `;
+          pixelRain.appendChild(pixel);
+        }
+      }
+
+      // Add fall animation
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes fall {
+          0% { transform: translateY(-100vh) rotate(0deg); opacity: 0; }
+          10% { opacity: 0.6; }
+          90% { opacity: 0.6; }
+          100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Loading screen
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const loader = document.getElementById('loadingScreen');
+          if (loader) {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+            loader.style.transition = 'opacity 0.8s ease, visibility 0.8s';
+          }
+        }, 2000);
+      });
+
+      // Navigation
+      const navBar = document.getElementById('navBar');
+      window.addEventListener('scroll', () => {
+        const currentScroll = window.scrollY;
+        if (currentScroll > 300) {
+          navBar.classList.add('visible');
+        } else {
+          navBar.classList.remove('visible');
+        }
+      });
+
+      // Dark mode toggle
+      const darkToggle = document.getElementById('darkModeToggle');
+      const body = document.body;
+      const icon = darkToggle.querySelector('i');
+
+      darkToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        if (body.classList.contains('dark-mode')) {
+          icon.classList.remove('fa-moon');
+          icon.classList.add('fa-sun');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          icon.classList.remove('fa-sun');
+          icon.classList.add('fa-moon');
+          localStorage.setItem('theme', 'light');
+        }
+      });
+
+      if (localStorage.getItem('theme') === 'dark') {
+        body.classList.add('dark-mode');
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      }
+
+      // Music control
+      const bgAudio = document.getElementById('bgAudio');
+      const musicBtn = document.getElementById('musicToggle');
+      let musicPlaying = false;
+
+      musicBtn.addEventListener('click', () => {
+        if (musicPlaying) {
+          bgAudio.pause();
+          musicBtn.innerHTML = '<i class="fas fa-music"></i> PLAY';
+        } else {
+          bgAudio.play().catch(e => console.log("Audio requires interaction"));
+          musicBtn.innerHTML = '<i class="fas fa-pause"></i> PAUSE';
+        }
+        musicPlaying = !musicPlaying;
+      });
+
+      // Scroll animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            entry.target.style.transition = 'opacity 0.8s ease, transform 0.7s ease';
+          }
+        });
+      }, { threshold: 0.15 });
+
+      document.querySelectorAll('[data-scroll]').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(35px)';
+        observer.observe(card);
+      });
+
+      // Quiz function
+      window.checkAnswer = function(element, isCorrect) {
+        const options = document.querySelectorAll('.quiz-option');
+        options.forEach(opt => {
+          opt.classList.remove('correct', 'wrong');
+          opt.style.pointerEvents = 'none';
+        });
+        
+        if (isCorrect) {
+          element.classList.add('correct');
+          document.getElementById('quizFeedback').textContent = 'Correct! Tunde was like a mango tree that needed time to grow.';
+          document.getElementById('quizFeedback').style.color = '#4caf50';
+        } else {
+          element.classList.add('wrong');
+          document.getElementById('quizFeedback').textContent = 'Not quite! Mrs. Adeyemi compared Tunde to a mango tree.';
+          document.getElementById('quizFeedback').style.color = '#f44336';
+          
+          options.forEach(opt => {
+            if (opt.textContent.includes('Mango Tree')) {
+              opt.classList.add('correct');
+            }
+          });
+        }
+
+        setTimeout(() => {
+          options.forEach(opt => {
+            opt.classList.remove('correct', 'wrong');
+            opt.style.pointerEvents = 'auto';
+          });
+          document.getElementById('quizFeedback').textContent = '';
+        }, 3000);
+      };
+
+      // Share functions
+      window.shareStory = function(platform) {
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent('Read "The Lesson Tunde Learned" - A beautiful Nigerian moral story for children!');
+        let shareUrl = '';
+        
+        switch(platform) {
+          case 'whatsapp':
+            shareUrl = `https://wa.me/?text=${text}%20${url}`;
+            break;
+          case 'facebook':
+            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            break;
+          case 'twitter':
+            shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+            break;
+        }
+        
+        if (shareUrl) window.open(shareUrl, '_blank');
+      };
+
+      window.copyLink = function() {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          alert('Link copied to clipboard! Share this story with friends and family.');
+        });
+      };
+
+      // Parallax effect
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const hero = document.querySelector('.hero');
+            if (hero) {
+              const scrollPos = window.scrollY;
+              hero.style.backgroundPositionY = `calc(50% + ${scrollPos * 0.3}px)`;
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+
+      // Typing animation
+      const subtitle = document.querySelector('.subtitle');
+      if (subtitle) {
+        const originalText = subtitle.textContent;
+        subtitle.textContent = '';
+        let i = 0;
+        function typeWriter() {
+          if (i < originalText.length) {
+            subtitle.textContent += originalText.charAt(i);
+            i++;
+            setTimeout(typeWriter, 35 + Math.random() * 20);
+          }
+        }
+        setTimeout(typeWriter, 500);
+      }
+    })();
+  </script>
+</body>
+</html>
