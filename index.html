@@ -70,7 +70,7 @@
       padding: 0 clamp(1rem, 5vw, 3rem);
     }
 
-    /* Loading Screen */
+    /* Loading Screen - FIXED */
     .loading-screen {
       position: fixed;
       inset: 0;
@@ -187,16 +187,14 @@
       color: #f3b33d;
     }
 
-    /* Hero Section */
+    /* Hero Section - FIXED background image handling */
     .hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      background: 
-        linear-gradient(135deg, rgba(107,78,61,0.8) 0%, rgba(31,59,47,0.85) 100%),
-        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><rect width="40" height="40" fill="%233d2b1a" opacity="0.3"/><rect width="20" height="20" fill="%235e3a22" opacity="0.2"/><rect x="20" y="20" width="20" height="20" fill="%235e3a22" opacity="0.2"/></svg>') repeat;
+      background: linear-gradient(135deg, rgba(107,78,61,0.8) 0%, rgba(31,59,47,0.85) 100%);
       background-blend-mode: overlay;
       border-radius: 0 0 clamp(1.5rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3rem);
       margin-bottom: 2rem;
@@ -214,8 +212,10 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: url('images/tunde-disobedient-boy.png') center/contain no-repeat;
-      opacity: 0.2;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.15;
       z-index: 0;
       animation: floatSlow 8s ease-in-out infinite;
     }
@@ -223,6 +223,31 @@
     @keyframes floatSlow {
       0%, 100% { transform: translateY(0) scale(1); }
       50% { transform: translateY(-20px) scale(1.05); }
+    }
+
+    /* Mobile: Disable heavy animations */
+    @media (max-width: 768px) {
+      .hero::before {
+        animation: none;
+      }
+      .image-container {
+        animation: none !important;
+      }
+      .proverb-banner::before {
+        animation: none !important;
+      }
+      .story-card:hover {
+        transform: none !important;
+      }
+      .story-card:hover .story-image {
+        transform: none !important;
+      }
+      .character-card:hover {
+        transform: none !important;
+      }
+      .moral-card:hover {
+        transform: none !important;
+      }
     }
 
     .hero-content {
@@ -440,6 +465,22 @@
       object-fit: cover;
       border: 4px solid #e7c288;
       image-rendering: auto;
+      background: #e7c28820;
+    }
+
+    /* Fallback for broken images */
+    .story-image.error-load {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #c97e2b20, #b45f2a20);
+      font-size: 4rem;
+      min-height: 200px;
+    }
+
+    .story-image.error-load::before {
+      content: "🖼️";
+      font-size: 3rem;
     }
 
     .story-card:hover .story-image {
@@ -599,6 +640,7 @@
       border-radius: 0.5rem;
       margin-bottom: 1rem;
       border: 3px solid #c97e2b;
+      background: #e7c28820;
     }
 
     .character-traits {
@@ -977,6 +1019,11 @@
       .nav-links {
         display: none;
       }
+      
+      /* Disable pixel rain on mobile completely */
+      .pixel-rain {
+        display: none !important;
+      }
     }
 
     @media (max-width: 480px) {
@@ -1008,7 +1055,7 @@
       animation: fadeInUp 0.8s ease forwards;
     }
 
-    /* Pixel rain */
+    /* Pixel rain - simplified for performance */
     .pixel-rain {
       position: fixed;
       top: 0;
@@ -1022,7 +1069,7 @@
   </style>
 </head>
 <body>
-  <!-- Pixel Rain Background -->
+  <!-- Pixel Rain Background - will be conditionally created -->
   <div class="pixel-rain" id="pixelRain"></div>
 
   <!-- Navigation -->
@@ -1037,7 +1084,7 @@
     </ul>
   </nav>
 
-  <!-- Loading Screen -->
+  <!-- Loading Screen - FIXED with proper content loading detection -->
   <div id="loadingScreen" class="loading-screen">
     <div class="pixel-art-loader">
       <div class="pixel-block"></div>
@@ -1063,8 +1110,8 @@
   </audio>
 
   <main>
-    <!-- Hero Section -->
-    <section class="hero" id="home" style="background-image: url('images/tunde-disobedient-boy.png'); background-size: cover; background-position: center;">
+    <!-- Hero Section - FIXED background image -->
+    <section class="hero" id="home">
       <div class="hero-content">
         <span class="hero-badge">NEW STORY</span>
         <h1>THE LESSON<br>TUNDE LEARNED</h1>
@@ -1095,13 +1142,13 @@
         <p class="proverb-author">-- Ancient Yoruba Proverb</p>
       </div>
 
-      <!-- Character Introductions -->
+      <!-- Character Introductions - FIXED with image error handling -->
       <div class="characters-section" id="characters">
         <h2 class="section-title">MEET THE CHARACTERS</h2>
         <p class="section-subtitle">Every great story has unforgettable characters. Here are the people in Tunde's journey.</p>
         <div class="character-cards">
           <div class="character-card featured">
-            <img src="images/tunde-disobedient-boy.png" alt="Tunde - The Disobedient Boy" class="character-img" loading="lazy">
+            <img src="images/tunde-disobedient-boy.png" alt="Tunde - The Disobedient Boy" class="character-img" loading="eager" fetchpriority="high" onerror="this.src='https://placehold.co/400x400/c97e2b/white?text=Tunde&amp;font=playfair'; this.style.objectFit='cover';">
             <h3>Tunde Adeyemi</h3>
             <p class="character-label">The Disobedient Boy</p>
             <p>An 8-year-old Nigerian boy with a heart full of dreams but ears closed to advice. He loves football more than schoolwork and often finds himself in trouble.</p>
@@ -1113,7 +1160,7 @@
             </div>
           </div>
           <div class="character-card">
-            <img src="images/mrs-adeyemi-loving-mother.png" alt="Mrs. Adeyemi - The Loving Mother" class="character-img" loading="lazy">
+            <img src="images/mrs-adeyemi-loving-mother.png" alt="Mrs. Adeyemi - The Loving Mother" class="character-img" loading="eager" onerror="this.src='https://placehold.co/400x400/d98c2b/white?text=Mama+Tunde&amp;font=playfair'; this.style.objectFit='cover';">
             <h3>Mrs. Adeyemi</h3>
             <p class="character-label">The Loving Mother</p>
             <p>A wise and patient mother who sees beyond Tunde's stubbornness. She works as a market trader and believes in the power of gentle words over harsh punishment.</p>
@@ -1125,7 +1172,7 @@
             </div>
           </div>
           <div class="character-card">
-            <img src="images/mr-bello-strict-teacher.png" alt="Mr. Bello - The Strict Teacher" class="character-img" loading="lazy">
+            <img src="images/mr-bello-strict-teacher.png" alt="Mr. Bello - The Strict Teacher" class="character-img" loading="eager" onerror="this.src='https://placehold.co/400x400/b45f2a/white?text=Mr.+Bello&amp;font=playfair'; this.style.objectFit='cover';">
             <h3>Mr. Bello</h3>
             <p class="character-label">The Strict Teacher</p>
             <p>A dedicated teacher who believes discipline is the foundation of success. Behind his stern face lies a man who truly wants the best for every child in his classroom.</p>
@@ -1183,12 +1230,12 @@
         </div>
       </div>
 
-      <!-- Story Cards -->
+      <!-- Story Cards - FIXED with image error handling -->
       <div class="story-grid">
         <!-- Scene 1: Morning at Home -->
         <div class="story-card" data-scroll>
           <div class="image-container">
-            <img src="images/tunde-home-morning.png" alt="Tunde leaving for school" class="story-image" loading="lazy">
+            <img src="images/tunde-home-morning.png" alt="Tunde leaving for school" class="story-image" loading="lazy" onerror="this.src='https://placehold.co/600x600/c97e2b/white?text=🏠+Morning+Scene&amp;font=playfair'; this.style.objectFit='cover';">
             <div class="glow-effect"></div>
             <div class="pixel-border"></div>
           </div>
@@ -1216,7 +1263,7 @@
         <!-- Scene 2: Classroom -->
         <div class="story-card" data-scroll>
           <div class="image-container">
-            <img src="images/classroom-scene.png" alt="Classroom scene with Mr. Bello" class="story-image" loading="lazy">
+            <img src="images/classroom-scene.png" alt="Classroom scene with Mr. Bello" class="story-image" loading="lazy" onerror="this.src='https://placehold.co/600x600/d98c2b/white?text=📚+Classroom&amp;font=playfair'; this.style.objectFit='cover';">
             <div class="glow-effect"></div>
             <div class="pixel-border"></div>
           </div>
@@ -1244,7 +1291,7 @@
         <!-- Scene 3: The Walk Home -->
         <div class="story-card" data-scroll>
           <div class="image-container">
-            <img src="images/tunde-walking-home.png" alt="Tunde walking home alone" class="story-image" loading="lazy">
+            <img src="images/tunde-walking-home.png" alt="Tunde walking home alone" class="story-image" loading="lazy" onerror="this.src='https://placehold.co/600x600/b45f2a/white?text=🚶+Walking+Home&amp;font=playfair'; this.style.objectFit='cover';">
             <div class="glow-effect"></div>
             <div class="pixel-border"></div>
           </div>
@@ -1273,7 +1320,7 @@
         <!-- Scene 4: Mother's Wisdom -->
         <div class="story-card" data-scroll>
           <div class="image-container">
-            <img src="images/mrs-adeyemi-loving-mother.png" alt="Mrs. Adeyemi counseling Tunde" class="story-image" loading="lazy">
+            <img src="images/mrs-adeyemi-loving-mother.png" alt="Mrs. Adeyemi counseling Tunde" class="story-image" loading="lazy" onerror="this.src='https://placehold.co/600x600/d98c2b/white?text=🤱+Mother's+Love&amp;font=playfair'; this.style.objectFit='cover';">
             <div class="glow-effect"></div>
             <div class="pixel-border"></div>
           </div>
@@ -1302,7 +1349,7 @@
         <!-- Scene 5: Transformation -->
         <div class="story-card" data-scroll>
           <div class="image-container">
-            <img src="images/tunde-transformed.png" alt="Tunde as class leader" class="story-image" loading="lazy">
+            <img src="images/tunde-transformed.png" alt="Tunde as class leader" class="story-image" loading="lazy" onerror="this.src='https://placehold.co/600x600/f3b33d/2e241b?text=⭐+Class+Leader&amp;font=playfair'; this.style.objectFit='cover';">
             <div class="glow-effect"></div>
             <div class="pixel-border"></div>
           </div>
@@ -1445,52 +1492,80 @@
     document.getElementById('currentYear').textContent = new Date().getFullYear();
     
     (function() {
-      // Generate pixel rain
+      // Detect mobile device
+      const isMobile = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+      
+      // ONLY create pixel rain on desktop devices (FIXES mobile performance)
       const pixelRain = document.getElementById('pixelRain');
-      if (pixelRain) {
-        for (let i = 0; i < 50; i++) {
+      if (!isMobile && pixelRain) {
+        for (let i = 0; i < 30; i++) { // Reduced from 50 to 30 for better performance
           const pixel = document.createElement('div');
+          const size = 2 + Math.random() * 4;
           pixel.style.cssText = `
             position: absolute;
-            width: ${2 + Math.random() * 4}px;
-            height: ${2 + Math.random() * 4}px;
+            width: ${size}px;
+            height: ${size}px;
             background: ${Math.random() > 0.5 ? '#c97e2b' : '#f3b33d'};
             left: ${Math.random() * 100}%;
             top: ${Math.random() * 100}%;
             animation: fall ${4 + Math.random() * 6}s linear infinite;
             animation-delay: ${Math.random() * 5}s;
-            opacity: 0.5;
+            opacity: 0.4;
             border-radius: 1px;
+            pointer-events: none;
           `;
           pixelRain.appendChild(pixel);
         }
+      } else if (pixelRain) {
+        pixelRain.style.display = 'none';
       }
 
-      // Add fall animation
+      // Add fall animation style
       const style = document.createElement('style');
       style.textContent = `
         @keyframes fall {
           0% { transform: translateY(-100vh) rotate(0deg); opacity: 0; }
-          10% { opacity: 0.6; }
-          90% { opacity: 0.6; }
+          10% { opacity: 0.5; }
+          90% { opacity: 0.5; }
           100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
       `;
       document.head.appendChild(style);
 
-      // Loading screen
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          const loader = document.getElementById('loadingScreen');
-          if (loader) {
-            loader.style.opacity = '0';
-            loader.style.visibility = 'hidden';
-            loader.style.transition = 'opacity 0.8s ease, visibility 0.8s';
-          }
-        }, 2000);
+      // FIXED: Loading screen - waits for actual content to load
+      let loadedImages = 0;
+      const totalImages = document.querySelectorAll('img').length;
+      
+      function hideLoader() {
+        const loader = document.getElementById('loadingScreen');
+        if (loader && loader.style.visibility !== 'hidden') {
+          loader.style.opacity = '0';
+          loader.style.visibility = 'hidden';
+        }
+      }
+      
+      function imageLoaded() {
+        loadedImages++;
+        if (loadedImages >= totalImages) {
+          // Small delay to ensure everything is painted
+          setTimeout(hideLoader, 300);
+        }
+      }
+      
+      // Count images that are already loaded
+      document.querySelectorAll('img').forEach(img => {
+        if (img.complete) {
+          imageLoaded();
+        } else {
+          img.addEventListener('load', imageLoaded);
+          img.addEventListener('error', imageLoaded); // Count errors as loaded to not hang
+        }
       });
+      
+      // Fallback timeout - 8 seconds max (not 2 seconds like before)
+      setTimeout(hideLoader, 8000);
 
-      // Navigation
+      // Navigation bar visibility
       const navBar = document.getElementById('navBar');
       window.addEventListener('scroll', () => {
         const currentScroll = window.scrollY;
@@ -1535,26 +1610,27 @@
           bgAudio.pause();
           musicBtn.innerHTML = '<i class="fas fa-music"></i> PLAY';
         } else {
-          bgAudio.play().catch(e => console.log("Audio requires interaction"));
+          bgAudio.play().catch(e => console.log("Audio requires user interaction"));
           musicBtn.innerHTML = '<i class="fas fa-pause"></i> PAUSE';
         }
         musicPlaying = !musicPlaying;
       });
 
-      // Scroll animations
+      // Scroll animations - with performance optimization
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
-            entry.target.style.transition = 'opacity 0.8s ease, transform 0.7s ease';
+            observer.unobserve(entry.target); // Stop observing after animation
           }
         });
-      }, { threshold: 0.15 });
+      }, { threshold: 0.1 });
 
       document.querySelectorAll('[data-scroll]').forEach(card => {
         card.style.opacity = '0';
-        card.style.transform = 'translateY(35px)';
+        card.style.transform = 'translateY(25px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.5s ease';
         observer.observe(card);
       });
 
@@ -1568,11 +1644,11 @@
         
         if (isCorrect) {
           element.classList.add('correct');
-          document.getElementById('quizFeedback').textContent = 'Correct! Tunde was like a mango tree that needed time to grow.';
+          document.getElementById('quizFeedback').textContent = '✓ Correct! Tunde was like a mango tree that needed time to grow.';
           document.getElementById('quizFeedback').style.color = '#4caf50';
         } else {
           element.classList.add('wrong');
-          document.getElementById('quizFeedback').textContent = 'Not quite! Mrs. Adeyemi compared Tunde to a mango tree.';
+          document.getElementById('quizFeedback').textContent = '✗ Not quite! Mrs. Adeyemi compared Tunde to a mango tree.';
           document.getElementById('quizFeedback').style.color = '#f44336';
           
           options.forEach(opt => {
@@ -1614,29 +1690,33 @@
 
       window.copyLink = function() {
         navigator.clipboard.writeText(window.location.href).then(() => {
-          alert('Link copied to clipboard! Share this story with friends and family.');
+          alert('✓ Link copied to clipboard! Share this story with friends and family.');
+        }).catch(() => {
+          alert('Press Ctrl+C to copy the link from your browser bar.');
         });
       };
 
-      // Parallax effect
-      let ticking = false;
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          window.requestAnimationFrame(() => {
-            const hero = document.querySelector('.hero');
-            if (hero) {
-              const scrollPos = window.scrollY;
-              hero.style.backgroundPositionY = `calc(50% + ${scrollPos * 0.3}px)`;
-            }
-            ticking = false;
-          });
-          ticking = true;
-        }
-      });
+      // Parallax effect - only on desktop for performance
+      if (!isMobile) {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              const hero = document.querySelector('.hero');
+              if (hero) {
+                const scrollPos = window.scrollY;
+                hero.style.backgroundPositionY = `calc(50% + ${scrollPos * 0.2}px)`;
+              }
+              ticking = false;
+            });
+            ticking = true;
+          }
+        });
+      }
 
-      // Typing animation
+      // Typing animation - only on first load
       const subtitle = document.querySelector('.subtitle');
-      if (subtitle) {
+      if (subtitle && !window.subtitleTyped) {
         const originalText = subtitle.textContent;
         subtitle.textContent = '';
         let i = 0;
@@ -1644,10 +1724,27 @@
           if (i < originalText.length) {
             subtitle.textContent += originalText.charAt(i);
             i++;
-            setTimeout(typeWriter, 35 + Math.random() * 20);
+            setTimeout(typeWriter, 30 + Math.random() * 15);
           }
         }
-        setTimeout(typeWriter, 500);
+        setTimeout(typeWriter, 300);
+        window.subtitleTyped = true;
+      }
+      
+      // Set hero background image via JavaScript (ensures it loads properly on mobile)
+      const heroSection = document.querySelector('.hero');
+      if (heroSection) {
+        const img = new Image();
+        img.onload = function() {
+          heroSection.style.backgroundImage = `linear-gradient(135deg, rgba(107,78,61,0.8) 0%, rgba(31,59,47,0.85) 100%), url('images/tunde-disobedient-boy.png')`;
+          heroSection.style.backgroundSize = 'cover';
+          heroSection.style.backgroundPosition = 'center';
+        };
+        img.onerror = function() {
+          // Use gradient only if image fails
+          heroSection.style.backgroundImage = `linear-gradient(135deg, rgba(107,78,61,0.8) 0%, rgba(31,59,47,0.85) 100%)`;
+        };
+        img.src = 'images/tunde-disobedient-boy.png';
       }
     })();
   </script>
